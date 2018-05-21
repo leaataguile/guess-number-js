@@ -26,10 +26,10 @@ class Game {
 
     play() {
         console.log("Let's play!");
-        this.randomNumber = this.generateNumber();
         this.tries = 0;
         this.maximum = 100;
         this.minimum = 0;
+        this.randomNumber = this.generateNumber();
         this.choosePlayer();
     }
 
@@ -60,7 +60,7 @@ class Game {
         return Math.floor(Math.random() * (this.maximum - this.minimum + 1)) + this.minimum;
     }
 
-    humanGuess() {
+    humanGuess() {        
         rl.question(`Input a number between ${this.minimum} and ${this.maximum}: `, (answer) => {
             if (answer > this.maximum || answer < this.minimum) {
                 console.log(`Input a number between ${this.minimum} and ${this.maximum}.`);
@@ -68,8 +68,8 @@ class Game {
             } else if (isNaN(answer)) {
                 console.log('Input a valid number.');
                 this.humanGuess();
-            } else {
-                this.answer = answer
+            } else {                
+                this.answer = answer;                
                 if (this.randomNumber == this.answer) {
                     console.log('Eureka!');
                     this.playAgain();
