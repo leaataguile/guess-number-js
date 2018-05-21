@@ -35,57 +35,60 @@ class Game {
 
     choosePlayer() {
         rl.question(`Type 'me' if you want to play, or 'machine' to let the machine guess your number: `, (answer) => {
-            switch (answer.toLowerCase()) {
-                case 'me':
-                    this.setPlayer('human');
-                    this.humanGuess();
-                    break;
-                case 'machine':
-                    this.setPlayer('machine');
-                    this.machineGuess();
-                    break;
-                default:
-                    console.log(`Please, type 'me' or 'machine' c:`);
-                    this.choosePlayer();
-                    break;
-            }
+            this.setPlayer(answer);
         });
     }
 
     setPlayer(player) {
-        this.player = player;        
+        switch (player.toLowerCase()) {
+            case 'me':
+                this.player = 'human';
+                this.humanGuess();
+                break;
+            case 'machine':
+                this.player = 'machine';
+                this.machineGuess();
+                break;
+            default:
+                console.log(`Please, type 'me' or 'machine' c:`);
+                this.choosePlayer();
+                break;
+        }
     }
 
     generateNumber() {
         return Math.floor(Math.random() * (this.maximum - this.minimum + 1)) + this.minimum;
     }
 
-    humanGuess() {        
+    humanGuess() {
         rl.question(`Input a number between ${this.minimum} and ${this.maximum}: `, (answer) => {
             if (answer > this.maximum || answer < this.minimum) {
-                console.log(`Input a number between ${this.minimum} and ${this.maximum}.`);
+                console.log(`Value out of range.`);
                 this.humanGuess();
             } else if (isNaN(answer)) {
                 console.log('Input a valid number.');
                 this.humanGuess();
-            } else {                
-                this.answer = answer;                
-                if (this.randomNumber == this.answer) {
-                    console.log('Eureka!');
-                    this.playAgain();
-                } else if (this.randomNumber > this.answer) {
-                    console.log(`The number is greater than ${this.answer}`);
-                    this.tries += 1;
-                    this.minimum = this.answer
-                    this.humanGuess();
-                } else if (this.randomNumber < this.answer) {
-                    console.log(`The number is smaller than ${this.answer}`);
-                    this.tries += 1;
-                    this.maximum = this.answer
-                    this.humanGuess();
-                }
+            } else {
+                this.humanEval(answer);
             }
         });
+    }
+
+    humanEval(answer) {
+        if (this.randomNumber == answer) {
+            console.log('Eureka!');
+            this.playAgain();
+        } else if (this.randomNumber > answer) {
+            console.log(`The number is greater than ${answer}`);
+            this.tries += 1;
+            this.minimum = answer
+            this.humanGuess();
+        } else if (this.randomNumber < answer) {
+            console.log(`The number is smaller than ${answer}`);
+            this.tries += 1;
+            this.maximum = answer
+            this.humanGuess();
+        }
     }
 
     machineGuess(error) {
