@@ -7,5 +7,6 @@ $ node .
 ```
 To run the tests
 ```sh
+$ npm install
 $ node test
 ```
