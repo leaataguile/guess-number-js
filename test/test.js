@@ -23,7 +23,7 @@ describe('Set player as machine', () => {
 
 describe('Set player as human', () => {
     describe('setPlayer()', () => {
-        it('should set the player as human', () => {            
+        it(`should't set the player`, () => {            
             let game = new Game();
             game.setPlayer('asdasda');
             assert.equal(game.player, undefined);
